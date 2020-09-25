@@ -93,7 +93,7 @@ module Logger
     def Logger.print(errType, msg) 
     	if  errType != nil && msg!=nil
 			puts " \033[40m\033[36m[#{errType}] #{msg}\033[0m\n"
-			puts " \033[40m\033[36m "    "\033[0m\n"
+			puts " \033[40m\033[36m "    ""
 
             if errType == 'ERROR'
             	puts " \033[40m\033[31m[Usage: Use --help for more infomation ]\033[0m\n"
