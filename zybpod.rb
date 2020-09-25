@@ -2,6 +2,24 @@
 require "optparse"
 require 'pathname'
 
+# 日志模块
+module Logger
+    def Logger.print(errType, msg) 
+    	if  errType != nil && msg!=nil
+			puts " \033[40m\033[36m[#{errType}] #{msg}"
+			puts " \033[40m\033[36m "    ""
+
+            if errType == 'ERROR'
+            	puts " \033[40m\033[31m[Usage: Use --help for more infomation ]"
+                exit
+            end
+        end
+    end
+end
+
+
+
+
 pn = Pathname.new(__FILE__).realpath;
 $dir = File.dirname(pn);
 cocoapodsPath=""
@@ -9,24 +27,23 @@ if ($dir.include? '/Users') & ($dir.include? '/Desktop')
     limit = $dir.split("/Desktop");
     cocoapodsPath = limit[0];
 else
-    puts "不在用户目录下";
+	Logger.print("EOOR","不在用户目录下")
 end
 
 zybspecPath = "#{cocoapodsPath}/.cocoapods/repos/ZYBSpecs";
 zybspecAFPath = "#{cocoapodsPath}/.cocoapods/repos/afpai-zybspecs";
 
 if File::exist?(zybspecPath)
-    puts "ZYBSpecs 存在 #{zybspecPath}"
+	Logger.print("INFO","ZYBSpecs 存在 #{zybspecPath}")
     $zybSpecName = "ZYBSpecs"
 elsif File::exist?(zybspecAFPath)
-    puts "afpai-zybspecs  存在 #{zybspecAFPath}"
+	Logger.print("INFO","afpai-zybspecs  存在 #{zybspecAFPath}")
     $zybSpecName = "afpai-zybspecs"
 else
-    puts "文件不存在,是否需要安装cocoapods"
+	Logger.print("ERROR","文件不存在,是否需要安装cocoapods")
+    puts "文件不存在,请安装cocoapods"
 end
 
-
-$zybSpecName = "afpai-zybspecs"
 $sources="--sources=git@git.afpai.com:native/ZYBSpecs.git,https://github.com/CocoaPods/Specs.git"
 
 $options = {:specs => $zybSpecName,
@@ -88,20 +105,6 @@ option_parser = OptionParser.new do |opts|
 	
 end.parse!
 
-# 日志模块
-module Logger
-    def Logger.print(errType, msg) 
-    	if  errType != nil && msg!=nil
-			puts " \033[40m\033[36m[#{errType}] #{msg}\033[0m\n"
-			puts " \033[40m\033[36m "    ""
-
-            if errType == 'ERROR'
-            	puts " \033[40m\033[31m[Usage: Use --help for more infomation ]\033[0m\n"
-                exit
-            end
-        end
-    end
-end
 
 
 # 取RCTag模块
