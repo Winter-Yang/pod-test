@@ -17,9 +17,7 @@ module Logger
     end
 end
 
-
-
-
+Logger.print("INFO","开始进程，请稍后")
 pn = Pathname.new(__FILE__).realpath;
 $dir = File.dirname(pn);
 cocoapodsPath=""
@@ -34,7 +32,7 @@ zybspecPath = "#{cocoapodsPath}/.cocoapods/repos/ZYBSpecs";
 zybspecAFPath = "#{cocoapodsPath}/.cocoapods/repos/afpai-zybspecs";
 
 if File::exist?(zybspecPath)
-	Logger.print("INFO","ZYBSpecs 存在 #{zybspecPath}")
+	Logger.print("INFO","ZYBSpecs: #{zybspecPath}")
     $zybSpecName = "ZYBSpecs"
 elsif File::exist?(zybspecAFPath)
 	Logger.print("INFO","afpai-zybspecs  存在 #{zybspecAFPath}")
@@ -392,7 +390,6 @@ module FileManager
 end
 
 
-Logger.print("INFO","开始进程，请稍后")
 if $options[:repoupdate] == true
    result =	Repo.specsUpdate
    if result == false
