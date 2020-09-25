@@ -25,3 +25,12 @@ Cloning spec repo `podtest.podspec` from `podtest.podspec`
 /Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/bin/pod:55:in `<top (required)>'
 /usr/local/bin/pod:23:in `load'
 /usr/local/bin/pod:23:in `<main>'
+Cloning spec repo `podtest.podspec` from `podtest.podspec`
+[!] Unable to find the `podtest.podspec` repo. If it has not yet been cloned, add it via `pod repo add`.
+
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:67:in `validate!'
+/Library/Ruby/Gems/2.6.0/gems/claide-1.0.3/lib/claide/command.rb:333:in `run'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command.rb:52:in `run'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/bin/pod:55:in `<top (required)>'
+/usr/local/bin/pod:23:in `load'
+/usr/local/bin/pod:23:in `<main>'
