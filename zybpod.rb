@@ -27,7 +27,12 @@ end
 
 
 $zybSpecName = "afpai-zybspecs"
-$sources="--sources=git@git.afpai.com:native/ZYBSpecs.git,https://github.com/CocoaPods/Specs.git"
+# $sources="--sources=git@git.afpai.com:native/ZYBSpecs.git,https://github.com/CocoaPods/Specs.git"
+$sources="--sources=https://github.com/Winter-Yang/podsource.git,https://github.com/CocoaPods/Specs.git"
+
+
+
+
 $options = {:specs => $zybSpecName,
 			:isFix => false,
 			:uselibraries => '--use-libraries',
@@ -201,9 +206,8 @@ module TagManager
 
 		podname = $specObject.specName.clone.split(".")[0]
 		# delete! ".podspec"
-    	Logger.print("INFO","等待上传检测#{podname}")
     	lastVersion =RCTag.getRCVersion(podname)
-    	Logger.print("INFO","#{podname}当前最新版本号 : #{lastVersion}")
+    	Logger.print("REPO","#{podname}当前最新版本 : #{lastVersion}")
 
     	if $options[:tag] == nil;
         	newversion = TagManager.newVersion(lastVersion)
@@ -233,7 +237,7 @@ module TagManager
         versionNumer_ca = "%03d" % (lastVersion.to_i+1)
         newversion_ca = versionNumer_ca.to_s
         newversion_ca.gsub!(/./){|s| s[0]+'.'}.chop!
-        Logger.print("INFO","#{podname}新版本号 : #{newversion_ca}")
+        Logger.print("REPO","#{podname}新版本号 : #{newversion_ca}")
     	return newversion_ca
     end
 end
@@ -266,6 +270,8 @@ module Repo
 
 	def Repo.push
 		cmdcd = "cd #{$specObject.rootPath}"
+		Logger.print("REPO","开始上传podspec至私有库 \n pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources}")
+
 		cmdpobpush = "pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources} >> log.txt"
 		Logger.print("REPO","开始上传podspec至私有库")
 	    result = system("#{cmdcd};#{cmdpobpush}")
@@ -283,10 +289,13 @@ end
 module GitManager
 	def GitManager.AddTag
 
-		cmdbranch = system("git symbolic-ref --short -q HEA")
-
+		cmdbranch = "git symbolic-ref --short -q HEA"
+		if $options[:branch] != nil
+	    	cmdbranch = $options[:branch]
+		end
+		Logger.print("GitManager","当前分支 : #{cmdbranch}")
 		new_tag = TagManager.newTag;
-        Logger.print("GitManager","新Tag : #{$specObject.rootPath}")
+		Logger.print("GitManager","新增Tag : #{new_tag}")
 		cmd_cd = "cd #{$specObject.rootPath}"
 		cmd_add = 'git add .'
 		#检测文件版本是否匹配
@@ -298,12 +307,7 @@ module GitManager
 			result = system("#{cmd_cd};#{cmd_add};#{cmd_commit};#{cmd_push}")
 		end
 		
-		Logger.print("GitManager","新Tag : #{new_tag}")
-		
-	    if $options[:branch] != nil
-	    	cmdbranch = $options[:branch]
-		end
-		Logger.print("GitManager","当前分支 : #{cmdbranch}")
+	
 	    commit_desc = "Tag:version_" + new_tag
 		cmd_tag = 'git tag -m " add:tag ' + new_tag + '" ' + new_tag
 		cmd_pushtag = 'git push --tags'
@@ -399,8 +403,8 @@ end
 FileManager.checkPodspec
 #Git相关
 GitManager.AddTag
-#Pod相关
-Repo.lint
+#Pod相关 由于库暂时很多相互依赖，无法校验，此处直接上传
+#Repo.lint
 Repo.push
 
 
