@@ -12,7 +12,7 @@ else
     puts "不在用户目录下";
 end
 
-zybspecPath = "#{cocoapodsPath}/.cocoapods/repos/podsource";
+zybspecPath = "#{cocoapodsPath}/.cocoapods/repos/ZYBSpecs";
 zybspecAFPath = "#{cocoapodsPath}/.cocoapods/repos/afpai-zybspecs";
 
 if File::exist?(zybspecPath)
@@ -27,11 +27,7 @@ end
 
 
 $zybSpecName = "afpai-zybspecs"
-# $sources="--sources=git@git.afpai.com:native/ZYBSpecs.git,https://github.com/CocoaPods/Specs.git"
-$sources="--sources=https://github.com/Winter-Yang/podsource.git,https://github.com/CocoaPods/Specs.git"
-
-
-
+$sources="--sources=git@git.afpai.com:native/ZYBSpecs.git,https://github.com/CocoaPods/Specs.git"
 
 $options = {:specs => $zybSpecName,
 			:isFix => false,
@@ -259,7 +255,7 @@ module Repo
 		
 		Logger.print("REPO","开始验证podspec")
 		cmdcd = "cd #{$specObject.rootPath}"
-		cmdpoblib = "pod lib lint --verbose #{@uselibraries} #{@allowwarnings}  #{$sources} --silent  >> log.txt"
+		cmdpoblib = "pod lib lint --verbose #{@uselibraries} #{@allowwarnings}  #{$sources} --silent"
 	    result = system("#{cmdcd};#{cmdpoblib}")
         if result == false
             Logger.print("ERROR","podspec验证失败，请检查代码或者podspec文件")
@@ -272,14 +268,17 @@ module Repo
 		cmdcd = "cd #{$specObject.rootPath}"
 		Logger.print("REPO","开始上传podspec至私有库 \n pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources}")
 
-		cmdpobpush = "pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources} >> log.txt"
+		cmdpobpush = "pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources}"
 		Logger.print("REPO","开始上传podspec至私有库")
 	    result = system("#{cmdcd};#{cmdpobpush}")
         if result == false
             Logger.print("ERROR","上传podspec失败，请检查代码或者podspec文件或ruby指定")
             exit       
         end
-        Logger.print("REPO","上传podspec成功，执行pod search 进行查询")
+		Logger.print("REPO","上传podspec成功，执行pod search 进行查询")
+		
+		system("")
+
 	end
 
 
@@ -381,7 +380,7 @@ module FileManager
 
 		if isModifyFile == true
 			Logger.print("FileManager","修改#{$specObject.specName}版本号 #{file_version}==>#{new_version}")
-			cmd_sed= "sed -i -e 's/#{file_version}/#{new_version}/' #{$specObject.specPath}"
+			cmd_sed= "sed -i 's/#{file_version}/#{new_version}/' #{$specObject.specPath}"
 			system("#{cmd_sed}")
 		end
 		return isModifyFile
