@@ -747,3 +747,100 @@ fatal: repository 'https://github.com/yangwende/podtest.git/' not found
 /Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/bin/pod:55:in `<top (required)>'
 /usr/local/bin/pod:23:in `load'
 /usr/local/bin/pod:23:in `<main>'
+
+Validating spec
+ -> podtest  podtest (0.3.1) - Analyzing on iOS 8.0 platform.
+  Preparing
+
+Analyzing dependencies
+
+Inspecting targets to integrate
+  Using `ARCHS` setting to build architectures of target `Pods-App`: (``)
+
+Fetching external sources
+-> Fetching podspec for `podtest` from `/Users/mr.yang/Desktop/ZYBProgram/pod-test/podtest.podspec`
+
+Resolving dependencies of 
+
+Comparing resolved specification to the sandbox manifest
+  A podtest
+
+Downloading dependencies
+
+-> Installing podtest (0.3.1)
+ > Git download
+ > Git download
+     $ /usr/bin/git clone https://github.com/yangwende/pod-test.git /var/folders/c7/6zn0s8k92pj76c4jn8rpw03w0000gn/T/d20200925-29689-9o8sqp --template= --single-branch --depth 1 --branch 0.3.1
+
+[!] Error installing podtest
+ -> podtest (0.3.1)
+    - WARN  | summary: The summary is not meaningful.
+    - WARN  | url: The URL (https://github.com/yangwende/podtest) is not reachable.
+    - ERROR | [iOS] unknown: Encountered an unknown error ([!] /usr/bin/git clone https://github.com/yangwende/pod-test.git /var/folders/c7/6zn0s8k92pj76c4jn8rpw03w0000gn/T/d20200925-29689-9o8sqp --template= --single-branch --depth 1 --branch 0.3.1
+
+Cloning into '/var/folders/c7/6zn0s8k92pj76c4jn8rpw03w0000gn/T/d20200925-29689-9o8sqp'...
+remote: Repository not found.
+fatal: repository 'https://github.com/yangwende/pod-test.git/' not found
+
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:142:in `rescue in execute_command'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:139:in `execute_command'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-downloader-1.4.0/lib/cocoapods-downloader/base.rb:166:in `block in executable'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-downloader-1.4.0/lib/cocoapods-downloader/git.rb:100:in `block in clone'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:173:in `block in ui_sub_action'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/user_interface.rb:64:in `section'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:172:in `ui_sub_action'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-downloader-1.4.0/lib/cocoapods-downloader/git.rb:98:in `clone'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-downloader-1.4.0/lib/cocoapods-downloader/git.rb:66:in `download!'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-downloader-1.4.0/lib/cocoapods-downloader/base.rb:82:in `block in download'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:157:in `block in ui_action'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/user_interface.rb:64:in `section'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:156:in `ui_action'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-downloader-1.4.0/lib/cocoapods-downloader/base.rb:80:in `download'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:108:in `download_source'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:75:in `download_request'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader/cache.rb:171:in `download'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader/cache.rb:154:in `block in uncached_pod'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader/cache.rb:181:in `in_tmpdir'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader/cache.rb:153:in `uncached_pod'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader/cache.rb:33:in `download_pod'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/downloader.rb:42:in `download'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer/pod_source_installer.rb:117:in `download_source'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer/pod_source_installer.rb:69:in `install!'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:557:in `install_source_of_pod'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:508:in `block (2 levels) in install_pod_sources'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/user_interface.rb:86:in `titled_section'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:507:in `block in install_pod_sources'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:490:in `each'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:490:in `install_pod_sources'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:249:in `block in download_dependencies'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/user_interface.rb:64:in `section'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/installer.rb:248:in `download_dependencies'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:565:in `block in download_pod'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:565:in `each'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:565:in `download_pod'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:389:in `block in perform_extensive_analysis'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:383:in `each'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:383:in `perform_extensive_analysis'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/validator.rb:130:in `validate'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:145:in `block in validate_podspec_files'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:135:in `each'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:135:in `validate_podspec_files'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:76:in `run'
+/Library/Ruby/Gems/2.6.0/gems/claide-1.0.3/lib/claide/command.rb:334:in `run'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command.rb:52:in `run'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/bin/pod:55:in `<top (required)>'
+/usr/local/bin/pod:23:in `load'
+/usr/local/bin/pod:23:in `<main>'
+) during validation.
+
+[!] The `podtest.podspec` specification does not validate.
+
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:150:in `block in validate_podspec_files'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:135:in `each'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:135:in `validate_podspec_files'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command/repo/push.rb:76:in `run'
+/Library/Ruby/Gems/2.6.0/gems/claide-1.0.3/lib/claide/command.rb:334:in `run'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/lib/cocoapods/command.rb:52:in `run'
+/Library/Ruby/Gems/2.6.0/gems/cocoapods-1.9.3/bin/pod:55:in `<top (required)>'
+/usr/local/bin/pod:23:in `load'
+/usr/local/bin/pod:23:in `<main>'
