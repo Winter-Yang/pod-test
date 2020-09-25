@@ -92,7 +92,9 @@ end.parse!
 module Logger
     def Logger.print(errType, msg) 
     	if  errType != nil && msg!=nil
-        	puts " \033[40m\033[36m[#{errType}] #{msg}\033[0m\n"
+			puts " \033[40m\033[36m[#{errType}] #{msg}\033[0m\n"
+			puts " \033[40m\033[36m "    "\033[0m\n"
+
             if errType == 'ERROR'
             	puts " \033[40m\033[31m[Usage: Use --help for more infomation ]\033[0m\n"
                 exit
@@ -124,7 +126,7 @@ module RCTag
                     rcVersionObjB = RcVersionObj.new(b, subPath)
                     rcVersionObjA.getComparisionResultWith(rcVersionObjB)
                 }
-                Logger.print("VersionLists","版本列表====#{fileList}")
+                Logger.print("INFO","版本列表 : #{fileList}")
 
             end
         end
@@ -203,7 +205,7 @@ module TagManager
 		podname = $specObject.specName.clone.split(".")[0]
 		# delete! ".podspec"
     	lastVersion =RCTag.getRCVersion(podname)
-    	Logger.print("REPO","#{podname}当前最新版本 : #{lastVersion}")
+    	Logger.print("INFO","#{podname}当前最新版本 : #{lastVersion}")
 
     	if $options[:tag] == nil;
         	newversion = TagManager.newVersion(lastVersion)
@@ -233,7 +235,7 @@ module TagManager
         versionNumer_ca = "%03d" % (lastVersion.to_i+1)
         newversion_ca = versionNumer_ca.to_s
         newversion_ca.gsub!(/./){|s| s[0]+'.'}.chop!
-        Logger.print("REPO","#{podname}新版本号 : #{newversion_ca}")
+        Logger.print("INFO","#{podname}新版本号 : #{newversion_ca}")
     	return newversion_ca
     end
 end
@@ -245,15 +247,15 @@ module Repo
 	@allowwarnings = $options[:allowwarnings];
 	@repoSpecs = $options[:specs];
 	def Repo.specsUpdate
-		Logger.print("REPO","正在更新repo，请等待")
+		Logger.print("INFO","正在更新repo，请等待")
 		result=system('pod repo update')
-		Logger.print("REPO","REPO更新完成")
+		Logger.print("INFO","REPO更新完成")
 		return result
 	end
 
 	def Repo.lint
 		
-		Logger.print("REPO","开始验证podspec")
+		Logger.print("INFO","开始验证podspec")
 		cmdcd = "cd #{$specObject.rootPath}"
 		cmdpoblib = "pod lib lint --verbose #{@uselibraries} #{@allowwarnings}  #{$sources} --silent"
 	    result = system("#{cmdcd};#{cmdpoblib}")
@@ -261,24 +263,23 @@ module Repo
             Logger.print("ERROR","podspec验证失败，请检查代码或者podspec文件")
             exit       
         end
-        Logger.print("REPO","podspec验证成功")
+        Logger.print("INFO","podspec验证成功")
 	end
 
 	def Repo.push
 		cmdcd = "cd #{$specObject.rootPath}"
-		Logger.print("REPO","开始上传podspec至私有库 \n pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources}")
+		Logger.print("INFO","开始上传podspec至私有库 \n pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources}")
 
-		cmdpobpush = "pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources}"
-		Logger.print("REPO","开始上传podspec至私有库")
+		cmdpobpush = "pod repo push --verbose --no-ansi #{@repoSpecs} #{$specObject.specName} #{@uselibraries} #{@allowwarnings} #{$sources} >> log.txt"
+		Logger.print("INFO","开始上传podspec至私有库")
 	    result = system("#{cmdcd};#{cmdpobpush}")
         if result == false
             Logger.print("ERROR","上传podspec失败，请检查代码或者podspec文件或ruby指定")
             exit       
         end
-		Logger.print("REPO","上传podspec成功，执行pod search 进行查询")
+		Logger.print("INFO","上传podspec成功，执行pod search 进行查询")
 		
-		system("")
-
+		system("rm log.txt");
 	end
 
 
@@ -287,19 +288,19 @@ end
 
 module GitManager
 	def GitManager.AddTag
-
-		cmdbranch = "git symbolic-ref --short -q HEA"
+		
+		cmdbranch = `git symbolic-ref --short -q HEAD`.chomp!
 		if $options[:branch] != nil
 	    	cmdbranch = $options[:branch]
 		end
-		Logger.print("GitManager","当前分支 : #{cmdbranch}")
+		Logger.print("INFO","当前分支 : #{cmdbranch}")
 		new_tag = TagManager.newTag;
 		cmd_cd = "cd #{$specObject.rootPath}"
 		cmd_add = 'git add .'
 		#检测文件版本是否匹配
 		isModifyFile = FileManager.fileVersionCheck(new_tag)
 		if isModifyFile == true
-            Logger.print("GitManager","Tag Commit")
+            Logger.print("INFO","Tag Commit")
 			cmd_commit = 'git commit -m "' + "修改podspec文件版本号#{new_tag}" + '"'
 			cmd_push = 'git push'
 			result = system("#{cmd_cd};#{cmd_add};#{cmd_commit};#{cmd_push}")
@@ -310,8 +311,7 @@ module GitManager
 		cmd_tag = 'git tag -m " add:tag ' + new_tag + '" ' + new_tag
 		cmd_pushtag = 'git push --tags'
 
-		result = false
-		Logger.print("GitManager","Tag Creat: #{new_tag}")
+		Logger.print("INFO","生成Tag : #{new_tag}")
 		cmd_detag = 'git tag -d ' + new_tag
 		cmd_pushde = 'git push origin :refs/tags/' +  new_tag
 		system("#{cmd_cd};#{cmd_add};#{cmd_detag};#{cmd_pushde};#{cmd_tag};#{cmd_pushtag}")
@@ -325,18 +325,18 @@ module FileManager
 		podspecname = ""
 		rootPath = ""
 		if podspec == nil
-			Logger.print("FileManager","podspec : 请输入podspec文件名称")
+			Logger.print("INFO","podspec : 请输入podspec文件名称")
 			exit
 		end
 		if podspec.include? "/"
-		   	Logger.print("FileManager","PodspecPath : #{podspec}")
+		   	Logger.print("INFO","PodspecPath : #{podspec}")
 		    #传进来的是一个路径
 		   	path = podspec.clone
 		   	isexist = File.exist?(path)
 		  	if isexist == true
 		   		podspecname = File.basename(path)
 		   		rootPath = File::dirname(path)
-		   		Logger.print("FileManager","PodspecName : #{podspecname}")
+		   		Logger.print("INFO","PodspecName : #{podspecname}")
 		   	else
 		   	    Logger.print("ERROR","PodspecPath : podspec文件路径不存在")
 		   		exit
@@ -379,7 +379,7 @@ module FileManager
 		}
 
 		if isModifyFile == true
-			Logger.print("FileManager","修改#{$specObject.specName}版本号 #{file_version}==>#{new_version}")
+			Logger.print("INFO","修改#{$specObject.specName}版本号 #{file_version}==>#{new_version}")
 			cmd_sed= "sed -i -e 's/#{file_version}/#{new_version}/' #{$specObject.specPath}"
 			system("#{cmd_sed}")
 			system("rm #{$specObject.specName}-e");
