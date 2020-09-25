@@ -380,7 +380,7 @@ module FileManager
 
 		if isModifyFile == true
 			Logger.print("FileManager","修改#{$specObject.specName}版本号 #{file_version}==>#{new_version}")
-			cmd_sed= "sed -i 's/#{file_version}/#{new_version}/' #{$specObject.specPath}"
+			cmd_sed= "sed -i -e 's/#{file_version}/#{new_version}/' #{$specObject.specPath}"
 			system("#{cmd_sed}")
 		end
 		return isModifyFile
