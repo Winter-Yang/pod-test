@@ -295,13 +295,12 @@ module GitManager
 		end
 		Logger.print("GitManager","当前分支 : #{cmdbranch}")
 		new_tag = TagManager.newTag;
-		Logger.print("GitManager","新增Tag : #{new_tag}")
 		cmd_cd = "cd #{$specObject.rootPath}"
 		cmd_add = 'git add .'
 		#检测文件版本是否匹配
 		isModifyFile = FileManager.fileVersionCheck(new_tag)
 		if isModifyFile == true
-            Logger.print("GitManager","上传Tag Commit")
+            Logger.print("GitManager","Tag Commit")
 			cmd_commit = 'git commit -m "' + "修改podspec文件版本号#{new_tag}" + '"'
 			cmd_push = 'git push'
 			result = system("#{cmd_cd};#{cmd_add};#{cmd_commit};#{cmd_push}")
@@ -313,7 +312,7 @@ module GitManager
 		cmd_pushtag = 'git push --tags'
 
 		result = false
-		Logger.print("GitManager","修改Tag : #{new_tag}")
+		Logger.print("GitManager","Tag Creat: #{new_tag}")
 		cmd_detag = 'git tag -d ' + new_tag
 		cmd_pushde = 'git push origin :refs/tags/' +  new_tag
 		system("#{cmd_cd};#{cmd_add};#{cmd_detag};#{cmd_pushde};#{cmd_tag};#{cmd_pushtag}")
